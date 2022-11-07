@@ -52,6 +52,9 @@ class BH:
         #random.shuffle(self.__L)
 
     def __init__(self, number = 0, numberOfDigits = 4):
+        self.__Guesses = []
+        self.__NBs = []
+        self.__NHs = []
         self.__counter = 0
         try:
           if not isinstance(number, int) \
@@ -91,10 +94,16 @@ class BH:
             self.__counter += 1
             self.__createGuess()
             self.__findBH()
-            print("guess number ", self.__counter,
-                  " is: ", self.__guess,
-                  " table size: ", len(self.__L),
-                  " nb: ", self.__NB, " nh: ", self.__NH)
+            # print("guess number ", self.__counter,
+            #       " is: ", self.__guess,
+            #       " table size: ", len(self.__L),
+            #       " nb: ", self.__NB, " nh: ", self.__NH)
+
+            self.__Guesses.append(self.__guess)
+            self.__NBs.append(self.__NB)
+            self.__NHs.append(self.__NH)
+
+
             if self.__NB == self.__numberOfDigits:
                 break
             else:
@@ -103,11 +112,25 @@ class BH:
                 self.__nb = self.__NB
                 self.__nh = self.__NH
                 self.__reduceTable()
-        print("number of tries: ", self.__counter)
-        print(75 * "=", "\n")
+        # print("number of tries: ", self.__counter)
+        # print(75 * "=", "\n")
+
 
     def getCounter(self):
         return self.__counter
+
+
+    def getNHs(self):
+        return self.__NHs
+
+
+    def getNBs(self):
+        return self.__NBs
+
+
+    def getGuesses(self):
+        return self.__Guesses
+
 
 def main():
     sys.stdout = open("bhOutput.txt", 'w')
