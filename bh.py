@@ -115,18 +115,14 @@ class BH:
         # print("number of tries: ", self.__counter)
         # print(75 * "=", "\n")
 
-
     def getCounter(self):
         return self.__counter
-
 
     def getNHs(self):
         return self.__NHs
 
-
     def getNBs(self):
         return self.__NBs
-
 
     def getGuesses(self):
         return self.__Guesses
