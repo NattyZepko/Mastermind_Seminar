@@ -15,7 +15,7 @@ def StartGame(player_type, game_count=1, zero_included=0, num_of_digits=4):
     bh.Zero = zero_included
     bh.NumberOfGames = game_count
     bh.NumberOfDigits = num_of_digits
-    Sleeping_Time = 0.001
+    Sleeping_Time = 0
 
     picturesOfQuestionMarks = []
     for i in range(num_of_digits):
