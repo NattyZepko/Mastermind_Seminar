@@ -1,3 +1,4 @@
+import tkinter.messagebox
 from tkinter import *
 import bh
 import time  # AND SPACE!
@@ -17,14 +18,16 @@ def StartGame(player_type, game_count=1, zero_included=0, num_of_digits=4):
     bh.NumberOfDigits = num_of_digits
     Sleeping_Time = 0
 
-    picturesOfQuestionMarks = []
-    for i in range(num_of_digits):
-        picturesOfQuestionMarks.append(Label(root2, text="?"))
-        picturesOfQuestionMarks[i].grid(row=0, column=i)
-
     if player_type == "AI":
+        guess_count_per_game = []
         for i in range(game_count):  # For each game:
+            picturesOfQuestionMarks = []
+            for j in range(num_of_digits):
+                picturesOfQuestionMarks.append(Label(root2, text="?"))
+                picturesOfQuestionMarks[j].grid(row=0, column=j)
+
             CurrentGame = bh.BH(number=0, numberOfDigits=num_of_digits)  # Current Game object holds the current game
+            guess_count_per_game.append(len(CurrentGame.getGuesses()))
             allGuesses = CurrentGame.getGuesses()  # Get all guesses
             allNB = CurrentGame.getNBs()  # Get all Bull (right color, wrong spot)
             allNH = CurrentGame.getNHs()  # Get all Hits (right color, right spot)
@@ -55,6 +58,13 @@ def StartGame(player_type, game_count=1, zero_included=0, num_of_digits=4):
                 pic.config(text=get_digit(guess, index))  # REVEAL THE ANSWER
             Game_Result_Label = Label(root2, text="Win in " + str(len(allGuesses)) + " guesses.")  # Show number of guesses
             Game_Result_Label.grid(row=len(allGuesses) + 2, column=1, columnspan=5)
+            tkinter.messagebox.showinfo("Game Ended", "Game #" + str(i+1) + " ended. Press OK to proceed.")
+            # CLEAN THE WINDOW
+            for widget in root2.winfo_children():
+                widget.destroy()
+        avg = round(sum(guess_count_per_game)/len(guess_count_per_game), 3)  # At most, 3 decimal places
+        Total_Result_Label = Label(root2, text = "    After " + str(game_count) + " games:\nThe average amount of guesses is: " + str(avg) + "   ")
+        Total_Result_Label.grid(row=0,column=0)
 
     else:
         print("TO DO")
