@@ -87,8 +87,7 @@ class BH:
         except ValueError as e:
             print(e)
             return
-        print("number: ", self.__number,
-              " table size: ", len(self.__L))
+        #  print("number: ", self.__number, " table size: ", len(self.__L))
         while True:
             self.__number = self.__Number
             self.__counter += 1

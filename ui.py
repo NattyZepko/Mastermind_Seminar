@@ -8,10 +8,9 @@ root.title = "Mastermind menu"
 
 # ### configurations: Running constants
 MIN_NUMBER_OF_DIGITS = 4
-MAX_NUMBER_OF_DIGITS = 6
+MAX_NUMBER_OF_DIGITS = 8
 MIN_NUMBER_OF_GAMES = 1
-MAX_NUMBER_OF_GAMES = 8
-
+MAX_NUMBER_OF_GAMES = 100
 
 
 # ### Creating function
