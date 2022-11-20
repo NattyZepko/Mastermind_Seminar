@@ -1,24 +1,39 @@
 from tkinter import *
 import gamewindow as gw
+import ui
 
 # THIS IS THE WINDOW. root is the "place" all the items will be places
 root = Tk()
 root.title = "Mastermind menu"
+root.eval('tk::PlaceWindow . center')
 
 
 # ### configurations: Running constants
-MIN_NUMBER_OF_DIGITS = 4
+MIN_NUMBER_OF_DIGITS = 2
 MAX_NUMBER_OF_DIGITS = 8
 MIN_NUMBER_OF_GAMES = 1
 MAX_NUMBER_OF_GAMES = 100
+
+# ### global variable
+PLAYER_TYPE = "AI"
 
 
 # ### Creating function
 def radioChange(value):
     if value == 2:
         gameCountSpinBox.config(state=DISABLED)
+        ui.PLAYER_TYPE = "PLAYER"
     else:
         gameCountSpinBox.config(state=NORMAL)
+        ui.PLAYER_TYPE = "AI"
+
+
+def showRules():
+    return
+
+
+def showCredits():
+    return
 
 
 # ### creating controls
@@ -33,9 +48,9 @@ num_of_digits.set(MIN_NUMBER_OF_DIGITS)
 numOfDigitsSpinBox = Spinbox(root, from_=MIN_NUMBER_OF_DIGITS, textvariable=num_of_digits, to=MAX_NUMBER_OF_DIGITS, width=3)
 
 numToGuessLabel = Label(root, text="Number of Digits to guess       ")
-startButton = Button(root, text="START!", command=lambda: gw.StartGame("AI", gameCount.get(), CheckVar.get(), num_of_digits.get()))
-rulesButton = Button(root, text="Rules of \nthe game", padx=10)
-creditsButton = Button(root, text="CREDITS")
+startButton = Button(root, text="START!", command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get()))
+rulesButton = Button(root, text="Rules of \nthe game", padx=10, command=showRules)
+creditsButton = Button(root, text="CREDITS", command=showCredits)
 blankLabel = Label(root)  # blank text, used for window spacing
 
 v = IntVar()  # Controls the Radio Button for whom solves (v.get() returns the value of the radiobutton)

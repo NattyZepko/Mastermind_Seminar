@@ -42,7 +42,7 @@ class GameAI:
         # elif self.gameCount > 5:
         #     self.sleeping_Time = 500
         self.sleeping_Time = round(1000 / self.gameCount)
-        #  self.root2.geometry('500x300')  # ENABLE TO FIX THE WINDOW SIZE
+        #  self.root2.geometry('300x400')  # ENABLE TO FIX THE WINDOW SIZE
         self.root2.mainloop()
 
     def populate_window(self):
