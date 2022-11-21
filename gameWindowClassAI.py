@@ -34,14 +34,6 @@ class GameAI:
         self.create_header()
         # After the windows are built, we launch it
         self.root2.title("AI solves the game")
-        # ### SET THE GAME PACE
-        # if self.gameCount > 15:
-        #     self.sleeping_Time = 50
-        # elif self.gameCount > 10:
-        #     self.sleeping_Time = 200
-        # elif self.gameCount > 5:
-        #     self.sleeping_Time = 500
-        self.sleeping_Time = round(1000 / self.gameCount)
         #  self.root2.geometry('300x400')  # ENABLE TO FIX THE WINDOW SIZE
         self.root2.mainloop()
 

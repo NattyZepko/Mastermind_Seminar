@@ -20,12 +20,19 @@ PLAYER_TYPE = "AI"
 
 # ### Creating function
 def radioChange(value):
-    if value == 2:
-        gameCountSpinBox.config(state=DISABLED)
-        ui.PLAYER_TYPE = "PLAYER"
-    else:
-        gameCountSpinBox.config(state=NORMAL)
-        ui.PLAYER_TYPE = "AI"
+    match value:
+        case 1:
+            gameCountSpinBox.config(state=NORMAL)
+            delayScale.config(state=NORMAL)
+            ui.PLAYER_TYPE = "AI"
+        case 2:
+            gameCountSpinBox.config(state=NORMAL)
+            delayScale.config(state=NORMAL)
+            ui.PLAYER_TYPE = "AIvsAI"
+        case _:  # case 3 (default)
+            gameCountSpinBox.config(state=DISABLED)
+            delayScale.config(state=DISABLED)
+            ui.PLAYER_TYPE = "PLAYER"
 
 
 def showRules():
@@ -39,6 +46,7 @@ def showCredits():
 # ### creating controls
 welcomeLabel = Label(root, text="Mastermind", font=("David", 25))
 Games_Num = Label(root, text=" Games")
+MS_Label = Label(root, text="M\\s delay between guesses")
 
 gameCount = IntVar()
 gameCount.set(1)
@@ -48,15 +56,17 @@ num_of_digits.set(MIN_NUMBER_OF_DIGITS)
 numOfDigitsSpinBox = Spinbox(root, from_=MIN_NUMBER_OF_DIGITS, textvariable=num_of_digits, to=MAX_NUMBER_OF_DIGITS, width=3)
 
 numToGuessLabel = Label(root, text="Number of Digits to guess       ")
-startButton = Button(root, text="START!", command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get()))
-rulesButton = Button(root, text="Rules of \nthe game", padx=10, command=showRules)
-creditsButton = Button(root, text="CREDITS", command=showCredits)
+startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), ui.delayScale.get()))
+rulesButton = Button(root, text="Rules of \nthe game", height=3, width=20, padx=10, command=showRules)
+creditsButton = Button(root, text="CREDITS", height=2, width=20, command=showCredits)
 blankLabel = Label(root)  # blank text, used for window spacing
+delayScale = Scale(root, from_=0, to=1000, length=220, orient=HORIZONTAL)
 
 v = IntVar()  # Controls the Radio Button for whom solves (v.get() returns the value of the radiobutton)
 v.set(1)  # initializing the choice
-RB1 = Radiobutton(root, text="AI Solve",  padx=20,  variable=v, value=1, command=lambda: radioChange(v.get()))
-RB2 = Radiobutton(root, text="You Solve",  padx=20,  variable=v, value=2, command=lambda: radioChange(v.get()))
+RB1 = Radiobutton(root, text="AI Solve",  padx=20, pady=15,  variable=v, value=1, command=lambda: radioChange(v.get()))
+RB2 = Radiobutton(root, text="AI vs AI",  padx=20, pady=15, variable=v, value=2, command=lambda: radioChange(v.get()))
+RB3 = Radiobutton(root, text="Human Solve",  padx=20, pady=15, variable=v, value=3, command=lambda: radioChange(v.get()))
 
 
 CheckVar = IntVar(value=1)  # Controls the checkbox. (CheckVar.get() returns 0/1 if checked or not)
@@ -67,16 +77,20 @@ includeZeroCheckBox = Checkbutton(root, text="Include the 0 digit", variable=Che
 
 welcomeLabel.grid(row=0, column=0, columnspan=10)
 Games_Num.grid(row=1, column=2)
-RB1.grid(row=1, column=0)
-RB2.grid(row=2, column=0)
+RB1.grid(sticky="W", row=1, column=0)
+RB2.grid(sticky="W",row=2, column=0, columnspan=2)
+RB3.grid(sticky="W",row=3, column=0, columnspan=2)
+MS_Label.grid(row=2, column=1, columnspan=10)
+delayScale.grid(row=3, column=1, columnspan=10)
 gameCountSpinBox.grid(row=1, column=1)
-includeZeroCheckBox.grid(row=3, column=0, columnspan=10)
-numOfDigitsSpinBox.grid(row=4, column=0)
-numToGuessLabel.grid(row=4, column=1, columnspan=10)
-startButton.grid(row=5, column=1)
-rulesButton.grid(row=6, column=0)
-creditsButton.grid(row=6, column=2)
-blankLabel.grid(row=7, column=0)
+includeZeroCheckBox.grid(row=4, column=0, columnspan=10)
+numOfDigitsSpinBox.grid(row=5, column=0, sticky="E")
+numToGuessLabel.grid(row=5, column=1, columnspan=10, sticky = "W")
+startButton.grid(row=7, column=0, rowspan=2)
+rulesButton.grid(row=7, column=2, columnspan=5)
+creditsButton.grid(row=8, column=2, columnspan=5)
+blankLabel.grid(row=10, column=0)
+
 
 # run the main loop (when interrupted, program ends)
 root.mainloop()
