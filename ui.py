@@ -20,19 +20,18 @@ PLAYER_TYPE = "AI"
 
 # ### Creating function
 def radioChange(value):
-    match value:
-        case 1:
-            gameCountSpinBox.config(state=NORMAL)
-            delayScale.config(state=NORMAL)
-            ui.PLAYER_TYPE = "AI"
-        case 2:
-            gameCountSpinBox.config(state=NORMAL)
-            delayScale.config(state=NORMAL)
-            ui.PLAYER_TYPE = "AIvsAI"
-        case _:  # case 3 (default)
-            gameCountSpinBox.config(state=DISABLED)
-            delayScale.config(state=DISABLED)
-            ui.PLAYER_TYPE = "PLAYER"
+    if value == 1:
+        gameCountSpinBox.config(state=NORMAL)
+        delayScale.config(state=NORMAL)
+        ui.PLAYER_TYPE = "AI"
+    elif value == 2:
+        gameCountSpinBox.config(state=NORMAL)
+        delayScale.config(state=NORMAL)
+        ui.PLAYER_TYPE = "AIvsAI"
+    else:  # case 3 (default)
+        gameCountSpinBox.config(state=DISABLED)
+        delayScale.config(state=DISABLED)
+        ui.PLAYER_TYPE = "PLAYER"
 
 
 def showRules():
