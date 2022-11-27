@@ -8,6 +8,7 @@ def get_digit(number, n):
     stringNumber = str(number)
     return stringNumber[n]
 
+
 class GameAIvsAI:
     def __init__(self, game_count=1, zero_included=0, num_of_digits=4):
         self.ans_label_1 = None  # [Per-Game] list of Labels, the size of [numOfDigits]

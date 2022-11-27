@@ -49,10 +49,20 @@ MS_Label = Label(root, text="M\\s delay between guesses")
 
 gameCount = IntVar()
 gameCount.set(1)
-gameCountSpinBox = Spinbox(root, from_=MIN_NUMBER_OF_GAMES, to=MAX_NUMBER_OF_GAMES, textvariable=gameCount, width=5)
+gameCountSpinBox = Spinbox(root,
+                           from_=MIN_NUMBER_OF_GAMES,
+                           to=MAX_NUMBER_OF_GAMES,
+                           textvariable=gameCount,
+                           width=5,
+                           wrap=True)
 num_of_digits = IntVar()
 num_of_digits.set(MIN_NUMBER_OF_DIGITS)
-numOfDigitsSpinBox = Spinbox(root, from_=MIN_NUMBER_OF_DIGITS, textvariable=num_of_digits, to=MAX_NUMBER_OF_DIGITS, width=3)
+numOfDigitsSpinBox = Spinbox(root,
+                             from_=MIN_NUMBER_OF_DIGITS,
+                             textvariable=num_of_digits,
+                             to=MAX_NUMBER_OF_DIGITS,
+                             width=3,
+                             wrap=True)
 
 numToGuessLabel = Label(root, text="Number of Digits to guess       ")
 startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), ui.delayScale.get()))
@@ -77,8 +87,8 @@ includeZeroCheckBox = Checkbutton(root, text="Include the 0 digit", variable=Che
 welcomeLabel.grid(row=0, column=0, columnspan=10)
 Games_Num.grid(row=1, column=2)
 RB1.grid(sticky="W", row=1, column=0)
-RB2.grid(sticky="W",row=2, column=0, columnspan=2)
-RB3.grid(sticky="W",row=3, column=0, columnspan=2)
+RB2.grid(sticky="W", row=2, column=0, columnspan=2)
+RB3.grid(sticky="W", row=3, column=0, columnspan=2)
 MS_Label.grid(row=2, column=1, columnspan=10)
 delayScale.grid(row=3, column=1, columnspan=10)
 gameCountSpinBox.grid(row=1, column=1)

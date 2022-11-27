@@ -33,6 +33,9 @@ class ManualBH:
         self.find_bh(my_cypher, current_guess)
         self.find_nh(my_cypher, current_guess)
 
+    def get_cypher(self):
+        return self.cypher
+
     def find_bh(self, my_cypher, current_guess):
         self.bh = 0
         idx = 0
@@ -60,12 +63,3 @@ class ManualBH:
                 c_idx += 1  # Because popping means everything goes one index back.
             else:
                 found_match = False  # Flag for next iteration
-
-
-game = ManualBH(4, 1)
-game.cypher = [1, 1, 2, 5]
-guess = [5, 1, 2, 2]
-game.get_guess(guess)
-print("my bh ==> "+str(game.bh))
-print("my nh ==> "+str(game.nh)) 
-
