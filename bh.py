@@ -51,10 +51,11 @@ class BH:
         self.__L = self.__L1.copy()
         #random.shuffle(self.__L)
 
-    def __init__(self, number = 0, numberOfDigits = 4):
+    def __init__(self, number=0, numberOfDigits=4):
         self.__Guesses = []
         self.__NBs = []
         self.__NHs = []
+        self.__TableSizes = []
         self.__counter = 0
         try:
           if not isinstance(number, int) \
@@ -101,6 +102,7 @@ class BH:
             self.__Guesses.append(self.__guess)
             self.__NBs.append(self.__NB)
             self.__NHs.append(self.__NH)
+            self.__TableSizes.append(len(self.__L))
 
 
             if self.__NB == self.__numberOfDigits:
@@ -123,8 +125,12 @@ class BH:
     def getNBs(self):
         return self.__NBs
 
+    def getTableSizes(self):
+        return self.__TableSizes
+
     def getGuesses(self):
         return self.__Guesses
+
 
 
 def main():

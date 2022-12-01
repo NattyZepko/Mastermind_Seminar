@@ -64,7 +64,7 @@ class GameHuman:
         button.destroy()  # Delete the button
         for index in range(self.numOfDigits):
             guess.append(int(spin_box_list[index].get()))
-            spin_box_list[index].config(state=DISABLED)
+            spin_box_list[index].config(state=DISABLED, disabledforeground="RED")
         self.currentGame.get_guess(guess)
         nh = self.currentGame.nh
         nb = self.currentGame.bh

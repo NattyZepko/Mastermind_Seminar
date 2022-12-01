@@ -13,16 +13,18 @@ class GameAIvsAI:
     def __init__(self, game_count=1, zero_included=0, num_of_digits=4):
         self.ans_label_1 = None  # [Per-Game] list of Labels, the size of [numOfDigits]
         self.ans_label_2 = None  # [Per-Game] list of Labels, the size of [numOfDigits]
-        self.NH_1 = None  # [Per-Game] list of all Hits by order
-        self.NB_1 = None  # [Per-Game] list of all Bulls by order
-        self.NH_2 = None  # [Per-Game] list of all Hits by order
-        self.NB_2 = None  # [Per-Game] list of all Bulls by order
-        self.allGuesses_1 = None  # [Per-Game] list of all guesses by order
-        self.allGuesses_2 = None  # [Per-Game] list of all guesses by order
-        self.currentGame_1 = None  # The current game object
-        self.currentGame_2 = None  # The current game object
+        self.NH_1 = None  # [Per-Game] list of all Hits by order for AI1
+        self.NB_1 = None  # [Per-Game] list of all Bulls by order for AI1
+        self.NH_2 = None  # [Per-Game] list of all Hits by order for AI2
+        self.NB_2 = None  # [Per-Game] list of all Bulls by order for AI2
+        self.TableSizes1 = None  # [Per-Game] list of Table-Size per guess for AI1
+        self.TableSizes2 = None  # [Per-Game] list of Table-Size per guess for AI2
+        self.allGuesses_1 = None  # [Per-Game] list of all guesses by order for AI1
+        self.allGuesses_2 = None  # [Per-Game] list of all guesses by order for AI2
+        self.currentGame_1 = None  # The current game object for AI1
+        self.currentGame_2 = None  # The current game object for AI2
         self.gameCount = game_count  # How many games we will play
-        self.score = {"1 win" : 0 , "tie" : 0, "2 win" : 0}  # List the size of [gameCount] of how many guesses each game took to solve
+        self.score = {"1 win": 0, "tie": 0, "2 win": 0}  # List the size of [gameCount] of how many guesses each game took to solve
         self.currentGameNumber = 1  # Current Game number out of [gameCount] games
         self.zeroIncluded = zero_included  # Boolean for including 1 or excluding
         self.numOfDigits = num_of_digits  # How many numbers to guess (IS OFTEN USED FOR ROW SIZE)
@@ -64,6 +66,8 @@ class GameAIvsAI:
         self.NB_2 = self.currentGame_2.getNBs()
         self.NH_1 = self.currentGame_1.getNHs()
         self.NH_2 = self.currentGame_2.getNHs()
+        self.TableSizes1 = self.currentGame_1.getTableSizes()
+        self.TableSizes2 = self.currentGame_2.getTableSizes()
         self.populateAllRows(1, 0)
 
     def populateAllRows(self, row_position, guess_index):
@@ -79,13 +83,13 @@ class GameAIvsAI:
             SpinBoxList_2[column_idx].grid(row=row_position, column=column_idx + self.offset)  # Put it on screen
             SpinBoxList_1[column_idx].insert(0, get_digit(current_guess_1, column_idx))  # Put a value in the spinbox
             SpinBoxList_2[column_idx].insert(0, get_digit(current_guess_2, column_idx))
-            SpinBoxList_1[column_idx].config(state=DISABLED)  # Disable the spinbox because users shouldn't interfere
-            SpinBoxList_2[column_idx].config(state=DISABLED)
+            SpinBoxList_1[column_idx].config(state=DISABLED, disabledforeground="RED")  # Disable the spinbox because users shouldn't interfere
+            SpinBoxList_2[column_idx].config(state=DISABLED, disabledforeground="RED")
         # ### Place the label of the guess-results
-        guess_result_label_1 = Label(self.root2, text="Bull:"+str(self.NB_1[guess_index])+" Hits:" + str(self.NH_1[guess_index]))
-        guess_result_label_2 = Label(self.root2, text="Bull:"+str(self.NB_2[guess_index])+" Hits:" + str(self.NH_2[guess_index]))
-        guess_result_label_1.grid(row=row_position, column=self.numOfDigits)
-        guess_result_label_2.grid(row=row_position, column=self.numOfDigits + self.offset)
+        guess_result_label_1 = Label(self.root2, text="Bull:"+str(self.NB_1[guess_index])+" Hits:" + str(self.NH_1[guess_index]) + " Table Size:"+str(self.TableSizes1[guess_index]) + "  ")
+        guess_result_label_2 = Label(self.root2, text="Bull:"+str(self.NB_2[guess_index])+" Hits:" + str(self.NH_2[guess_index]) + " Table Size:"+str(self.TableSizes2[guess_index]) + "  ")
+        guess_result_label_1.grid(sticky="W", row=row_position, column=self.numOfDigits)
+        guess_result_label_2.grid(sticky="W", row=row_position, column=self.numOfDigits + self.offset)
         # ### Next step
         if guess_index < len(self.allGuesses_1)-1 and guess_index < len(self.allGuesses_2)-1:
             # We need more guesses, in the next row
@@ -133,7 +137,6 @@ class GameAIvsAI:
         for widget in self.root2.winfo_children():
             widget.destroy()
 
-
     def showFinalResults(self):
         # {"1 win" : 0 , "tie" : 0, "2 win" : 0} 
         res_text = "Times 1 won: " + str(self.score["1 win"]) + "\n"
@@ -146,7 +149,6 @@ class GameAIvsAI:
         else:
             res_text += "The result is a tie!"
 
-        
         tkinter.messagebox.showinfo("RESULTS", res_text)
 
 

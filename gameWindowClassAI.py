@@ -14,6 +14,7 @@ class GameAI:
         self.ans_label = None  # [Per-Game] list of Labels, the size of [numOfDigits]
         self.NH = None  # [Per-Game] list of all Hits by order
         self.NB = None  # [Per-Game] list of all Bulls by order
+        self.TableSizes = None  # [Per-Game] list of Table-Size per guess
         self.allGuesses = None  # [Per-Game] list of all guesses by order
         self.currentGame = None  # The current game object
         self.gameCount = game_count  # How many games we will play
@@ -41,6 +42,7 @@ class GameAI:
         self.allGuesses = self.currentGame.getGuesses()
         self.NB = self.currentGame.getNBs()
         self.NH = self.currentGame.getNHs()
+        self.TableSizes = self.currentGame.getTableSizes()
         self.populateAllRows(1, 0)
 
     def populateAllRows(self, row_position, guess_index):
@@ -51,10 +53,10 @@ class GameAI:
             SpinBoxList.append(Spinbox(self.root2, width=2))  # Make a new spinbox
             SpinBoxList[column_idx].grid(row=row_position, column=column_idx)  # Put it on screen
             SpinBoxList[column_idx].insert(0, get_digit(current_guess, column_idx))  # Put a value in the spinbox
-            SpinBoxList[column_idx].config(state=DISABLED)  # Disable the spinbox because users shouldn't interfere
+            SpinBoxList[column_idx].config(state=DISABLED, disabledforeground="RED")  # Disable the spinbox because users shouldn't interfere
         # ### Place the label of the guess-results
-        guess_result_label = Label(self.root2, text="Bull:"+str(self.NB[guess_index])+" Hits:" + str(self.NH[guess_index]))
-        guess_result_label.grid(row=row_position, column=self.numOfDigits)
+        guess_result_label = Label(self.root2, text="Bull:"+str(self.NB[guess_index])+" Hits:"+str(self.NH[guess_index])+" Table Size:"+str(self.TableSizes[guess_index]) + "  ")
+        guess_result_label.grid(sticky="W", row=row_position, column=self.numOfDigits)
         # ### Next step
         if guess_index < len(self.allGuesses)-1:
             # We need more guesses, in the next row
