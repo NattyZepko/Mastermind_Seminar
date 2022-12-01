@@ -1,6 +1,7 @@
 import tkinter.messagebox
 from tkinter import *
 import bh
+import pygame
 import time  # AND SPACE!
 
 
@@ -10,7 +11,7 @@ def get_digit(number, n):
 
 
 class GameAIvsAI:
-    def __init__(self, game_count=1, zero_included=0, num_of_digits=4):
+    def __init__(self, game_count=1, zero_included=0, num_of_digits=4, sound_included=1):
         self.ans_label_1 = None  # [Per-Game] list of Labels, the size of [numOfDigits]
         self.ans_label_2 = None  # [Per-Game] list of Labels, the size of [numOfDigits]
         self.NH_1 = None  # [Per-Game] list of all Hits by order for AI1
@@ -26,7 +27,8 @@ class GameAIvsAI:
         self.gameCount = game_count  # How many games we will play
         self.score = {"1 win": 0, "tie": 0, "2 win": 0}  # List the size of [gameCount] of how many guesses each game took to solve
         self.currentGameNumber = 1  # Current Game number out of [gameCount] games
-        self.zeroIncluded = zero_included  # Boolean for including 1 or excluding
+        self.zeroIncluded = zero_included  # Boolean for including 0 or excluding
+        self.soundIncluded = sound_included  # Boolean for including sound or excluding
         self.numOfDigits = num_of_digits  # How many numbers to guess (IS OFTEN USED FOR ROW SIZE)
         self.sleeping_Time = 1000  # Sleeping time adjustment
         self.offset = None
@@ -92,9 +94,22 @@ class GameAIvsAI:
         guess_result_label_2.grid(sticky="W", row=row_position, column=self.numOfDigits + self.offset)
         # ### Next step
         if guess_index < len(self.allGuesses_1)-1 and guess_index < len(self.allGuesses_2)-1:
+            if self.soundIncluded:
+                pygame.mixer.music.load("Sounds/guess SFX.mp3")
+                pygame.mixer.music.play(loops=0)
             # We need more guesses, in the next row
             guess_result_label_1.after(self.sleeping_Time, lambda: self.populateAllRows(row_position+1, guess_index+1))
+
         else:
+            if self.soundIncluded:
+                if len(self.allGuesses_1) == len(self.allGuesses_2):
+                    pygame.mixer.music.load("Sounds/Human win sfx.mp3")
+                elif len(self.allGuesses_2) > len(self.allGuesses_1):
+                    pygame.mixer.music.load("Sounds/P1 win sfx.mp3")
+                else:
+                    pygame.mixer.music.load("Sounds/P2 win sfx.mp3")
+                pygame.mixer.music.play(loops=0)
+
             # "current_guess" is equal to answer, and therefore we can send it as the answer
             guess_result_label_1.after(self.sleeping_Time, lambda: self.game_ender_setup(row_position+1))
 

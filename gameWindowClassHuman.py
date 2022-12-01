@@ -2,10 +2,11 @@ import tkinter.messagebox
 from tkinter import *
 import manualbh
 import time  # AND SPACE!
+import pygame
 
 
 class GameHuman:
-    def __init__(self, zero_included=0, num_of_digits=4):
+    def __init__(self, zero_included=0, num_of_digits=4, sound_included=1):
         self.game_running = True
         self.ans_label = None
         self.timer_label = None
@@ -14,9 +15,12 @@ class GameHuman:
         self.current_row_number = 2
         self.numOfDigits = num_of_digits
         self.zeroIncluded = zero_included
+        self.soundIncluded = sound_included
         self.root2 = Tk()
 
     def startGame(self):
+        if self.soundIncluded:
+            pygame.mixer.init()
         self.currentGame = manualbh.ManualBH(self.numOfDigits, self.zeroIncluded)
         self.game_running = True
         self.current_row_number = 2
@@ -37,14 +41,14 @@ class GameHuman:
         spinBoxList = []
         values = []
         if self.zeroIncluded:
-            minval = 0
+            min_val = 0
         else:
-            minval = 1
+            min_val = 1
         for index in range(self.numOfDigits):
-            values.append(tkinter.StringVar(value=minval))
+            values.append(tkinter.StringVar(value=min_val))
             spinBoxList.append(Spinbox(self.root2,
                                        width=1,
-                                       from_=minval,
+                                       from_=min_val,
                                        to=9,
                                        textvariable=values[index],
                                        wrap=True))
@@ -71,9 +75,13 @@ class GameHuman:
         res_label = Label(self.root2, text="Bull:"+str(nb)+" Hits:"+str(nh))
         res_label.grid(row=self.current_row_number, column=self.numOfDigits)
         if nb == self.numOfDigits:
+            pygame.mixer.music.load("Sounds/Human win sfx.mp3")
+            pygame.mixer.music.play(loops=0)
             self.game_running = False
             self.endgame()
         else:
+            pygame.mixer.music.load("Sounds/guess SFX.mp3")
+            pygame.mixer.music.play(loops=0)
             self.current_row_number += 1
             self.make_guess_row()
 

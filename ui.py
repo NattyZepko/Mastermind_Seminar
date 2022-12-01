@@ -65,7 +65,7 @@ numOfDigitsSpinBox = Spinbox(root,
                              wrap=True)
 
 numToGuessLabel = Label(root, text="Number of Digits to guess       ")
-startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), ui.delayScale.get()))
+startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), ui.delayScale.get(), SoundVar.get()))
 rulesButton = Button(root, text="Rules of \nthe game", height=3, width=20, padx=10, command=showRules)
 creditsButton = Button(root, text="CREDITS", height=2, width=20, command=showCredits)
 blankLabel = Label(root)  # blank text, used for window spacing
@@ -81,6 +81,9 @@ RB3 = Radiobutton(root, text="Human Solve",  padx=20, pady=15, variable=v, value
 CheckVar = IntVar(value=1)  # Controls the checkbox. (CheckVar.get() returns 0/1 if checked or not)
 includeZeroCheckBox = Checkbutton(root, text="Include the 0 digit", variable=CheckVar)
 
+SoundVar = IntVar(value=1)
+includeSoundCheckBox = Checkbutton(root, text="Play sound", variable=SoundVar)
+
 
 # ### add to screen
 
@@ -89,16 +92,17 @@ Games_Num.grid(row=1, column=2)
 RB1.grid(sticky="W", row=1, column=0)
 RB2.grid(sticky="W", row=2, column=0, columnspan=2)
 RB3.grid(sticky="W", row=3, column=0, columnspan=2)
-MS_Label.grid(row=2, column=1, columnspan=10)
+MS_Label.grid(sticky="W", row=2, column=1, columnspan=10)
 delayScale.grid(row=3, column=1, columnspan=10)
-gameCountSpinBox.grid(row=1, column=1)
+gameCountSpinBox.grid(sticky="W", row=1, column=1)
 includeZeroCheckBox.grid(row=4, column=0, columnspan=10)
-numOfDigitsSpinBox.grid(row=5, column=0, sticky="E")
-numToGuessLabel.grid(row=5, column=1, columnspan=10, sticky="W")
-startButton.grid(row=7, column=0, rowspan=2)
-rulesButton.grid(row=7, column=2, columnspan=5)
-creditsButton.grid(row=8, column=2, columnspan=5)
-blankLabel.grid(row=10, column=0)
+includeSoundCheckBox.grid(row=5, column=0, columnspan=10)
+numOfDigitsSpinBox.grid(sticky="E", row=6, column=0)
+numToGuessLabel.grid(sticky="W", row=6, column=1, columnspan=10)
+startButton.grid(sticky="W", row=7, column=0, rowspan=2)
+rulesButton.grid(sticky="W", row=7, column=2, columnspan=5)
+creditsButton.grid(sticky="W", row=8, column=2, columnspan=5)
+blankLabel.grid(sticky="W", row=10, column=0)
 
 
 # run the main loop (when interrupted, program ends)
