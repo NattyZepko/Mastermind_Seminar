@@ -5,12 +5,32 @@ import pygame
 
 
 def get_digit(number, n):
+    """ Gets the n-th digit position from the number, as a string
+    :param number: The original number we're trying to get the digit from
+    :type number: int or str
+    :param n: The position (left-to-right), count starts from 0
+    :type n: int
+    :return: a string containing a single digit. e.g. '6'
+    :rtype: str
+    """
+
     stringNumber = str(number)
     return stringNumber[n]
 
 
 class GameAI:
     def __init__(self, game_count=1, zero_included=0, num_of_digits=4, sound_included=1):
+        """ init function
+        :param game_count: Number of games to be played
+        :type game_count: int
+        :param zero_included: 0 if exclude the digit zero from the game, any other value otherwise
+        :type zero_included: int
+        :param num_of_digits: Number of digits to guess. This value commonly determines the size of a row
+        :type num_of_digits: int
+        :param sound_included: 0 if exclude the sound from the game, any other value otherwise
+        :type sound_included: int
+        """
+
         self.ans_label = None  # [Per-Game] list of Labels, the size of [numOfDigits]
         self.NH = None  # [Per-Game] list of all Hits by order
         self.NB = None  # [Per-Game] list of all Bulls by order
@@ -32,6 +52,10 @@ class GameAI:
         bh.NumberOfDigits = num_of_digits
 
     def startGame(self):
+        """
+        Builds and launches a window. Also initializes the sound, if necessary.
+        """
+
         if self.soundIncluded:
             pygame.mixer.init()
         self.currentGame = bh.BH(0, self.numOfDigits)
@@ -42,6 +66,10 @@ class GameAI:
         self.root2.mainloop()
 
     def populate_window(self):
+        """
+        Starts a 'domino effect' by activating 'populateAllRows' with initial values
+        """
+
         self.allGuesses = self.currentGame.getGuesses()
         self.NB = self.currentGame.getNBs()
         self.NH = self.currentGame.getNHs()
@@ -49,6 +77,13 @@ class GameAI:
         self.populateAllRows(1, 0)
 
     def populateAllRows(self, row_position, guess_index):
+        """ Make a row of guess-controls, using recursion to fill the window with all rows
+        :param row_position: Which row in the window should be written into
+        :type row_position: int
+        :param guess_index: The index in the self.allGuesses to extract info
+        :type guess_index: int
+        """
+
         SpinBoxList = []
         current_guess = self.allGuesses[guess_index]  # Get the current guess
         # ### Place the numbers
@@ -75,6 +110,14 @@ class GameAI:
             guess_result_label.after(self.sleeping_Time, lambda: self.game_ender_setup(row_position+1, current_guess))
 
     def game_ender_setup(self, row_position, answer):
+        """ Function called upon a correct guess, changes the Answer Labels to reveal the answer,
+        and then call prepNextGame function
+        :param row_position: The row position in the window to show the results
+        :type row_position: int
+        :param answer: The number to reveal as the answer for the current game
+        :type answer: str or int
+        """
+
         # ### REVEAL THE ANSWER
         for column_idx in range(self.numOfDigits):
             self.ans_label[column_idx].config(text=get_digit(answer, column_idx), fg='Green', font="Helvetica 20 bold")
@@ -88,6 +131,11 @@ class GameAI:
         tempLabel.after(self.sleeping_Time * 2, self.prepNextGame)
 
     def prepNextGame(self):
+        """
+        Check if this is the last game, and show final results, or clean the window, and start a new game.
+        Increments appropriate attributes.
+        """
+
         if self.currentGameNumber == self.gameCount:  # happens if we played the LAST GAME
             self.showFinalResults()
         else:
@@ -97,14 +145,26 @@ class GameAI:
             self.create_header()  # This invokes the loop again
 
     def showFinalResults(self):
+        """
+        A function called when all games are finished, and shows the results of all games
+        """
+
         resultAVG = sum(self.allGuessCounts) / len(self.allGuessCounts)
         tkinter.messagebox.showinfo("RESULTS", "In " + str(self.gameCount) + " games, the average number of guesses is: " + str(round(resultAVG, 2)))
 
     def cleanWindow(self):
+        """
+        Remove every control from the window
+        """
+
         for widget in self.root2.winfo_children():
             widget.destroy()
 
     def create_header(self):
+        """
+        Place new header labels in the window, with '?' to signify a new game
+        """
+
         self.ans_label = []
         for i in range(self.numOfDigits):
             self.ans_label.append(Label(self.root2, text='?'))

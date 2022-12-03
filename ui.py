@@ -18,8 +18,11 @@ MAX_NUMBER_OF_GAMES = 100
 PLAYER_TYPE = "AI"
 
 
-# ### Creating function
 def radioChange(value):
+    """ Function called upon main game-type radio-button change
+    :param value: the number of radio-button to match
+    :type value: int
+    """
     if value == 1:
         gameCountSpinBox.config(state=NORMAL)
         delayScale.config(state=NORMAL)
@@ -63,13 +66,14 @@ numOfDigitsSpinBox = Spinbox(root,
                              to=MAX_NUMBER_OF_DIGITS,
                              width=3,
                              wrap=True)
-
+num_of_digits.set(4)
 numToGuessLabel = Label(root, text="Number of Digits to guess       ")
 startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), ui.delayScale.get(), SoundVar.get()))
 rulesButton = Button(root, text="Rules of \nthe game", height=3, width=20, padx=10, command=showRules)
 creditsButton = Button(root, text="CREDITS", height=2, width=20, command=showCredits)
 blankLabel = Label(root)  # blank text, used for window spacing
 delayScale = Scale(root, from_=0, to=1000, length=220, orient=HORIZONTAL)
+delayScale.set(50)
 
 v = IntVar()  # Controls the Radio Button for whom solves (v.get() returns the value of the radiobutton)
 v.set(1)  # initializing the choice

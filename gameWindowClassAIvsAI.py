@@ -2,16 +2,35 @@ import tkinter.messagebox
 from tkinter import *
 import bh
 import pygame
-import time  # AND SPACE!
 
 
 def get_digit(number, n):
+    """ Gets the n-th digit position from the number, as a string
+    :param number: The original number we're trying to get the digit from
+    :type number: int or str
+    :param n: The position (left-to-right), count starts from 0
+    :type n: int
+    :return: a string containing a single digit. e.g. '6'
+    :rtype: str
+    """
+
     stringNumber = str(number)
     return stringNumber[n]
 
 
 class GameAIvsAI:
     def __init__(self, game_count=1, zero_included=0, num_of_digits=4, sound_included=1):
+        """ init function
+        :param game_count: Number of games to be played
+        :type game_count: int
+        :param zero_included: 0 if exclude the digit zero from the game, any other value otherwise
+        :type zero_included: int
+        :param num_of_digits: Number of digits to guess. This value commonly determines the size of a row
+        :type num_of_digits: int
+        :param sound_included: 0 if exclude the sound from the game, any other value otherwise
+        :type sound_included: int
+        """
+
         self.ans_label_1 = None  # [Per-Game] list of Labels, the size of [numOfDigits]
         self.ans_label_2 = None  # [Per-Game] list of Labels, the size of [numOfDigits]
         self.NH_1 = None  # [Per-Game] list of all Hits by order for AI1
@@ -40,16 +59,26 @@ class GameAIvsAI:
         bh.NumberOfDigits = num_of_digits
 
     def startGame(self):
+        """
+        Builds and launches a window, and invokes appropriate functions.
+        Also initializes the sound, if necessary
+        """
+
+        if self.soundIncluded:
+            pygame.mixer.init()
         self.currentGame_1 = bh.BH(0, self.numOfDigits)
         self.currentGame_2 = bh.BH(0, self.numOfDigits)
         self.offset = 3 + self.numOfDigits  # 1 added to account for Game_count label
         self.create_header()
         # After the windows are built, we launch it
         self.root2.title("AI vs AI")
-        #  self.root2.geometry('300x400')  # ENABLE TO FIX THE WINDOW SIZE
         self.root2.mainloop()
 
     def create_header(self):
+        """
+        Place new header labels in the window, with '?' to signify a new game
+        """
+
         self.ans_label_1 = []
         self.ans_label_2 = []
         for i in range(self.numOfDigits):
@@ -62,6 +91,10 @@ class GameAIvsAI:
         game_num_label.after(self.sleeping_Time, self.populate_window)
 
     def populate_window(self):
+        """
+        Starts a 'domino effect' by activating 'populateAllRows' with initial values
+        """
+
         self.allGuesses_1 = self.currentGame_1.getGuesses()
         self.allGuesses_2 = self.currentGame_2.getGuesses()
         self.NB_1 = self.currentGame_1.getNBs()
@@ -73,6 +106,13 @@ class GameAIvsAI:
         self.populateAllRows(1, 0)
 
     def populateAllRows(self, row_position, guess_index):
+        """ Make a row of guess-controls, using recursion to fill the window with all rows
+        :param row_position: Which row in the window should be written into
+        :type row_position: int
+        :param guess_index: The index in the self.allGuesses to extract info
+        :type guess_index: int
+        """
+
         SpinBoxList_1 = []
         SpinBoxList_2 = []
         current_guess_1 = self.allGuesses_1[guess_index]  # Get the current guess
@@ -114,13 +154,18 @@ class GameAIvsAI:
             guess_result_label_1.after(self.sleeping_Time, lambda: self.game_ender_setup(row_position+1))
 
     def game_ender_setup(self, row_position):
+        """ Function called upon a correct guess, changes the Answer Labels to reveal the answer,
+        and then call prepNextGame function
+        :param row_position: The row position in the window to show the results
+        :type row_position: int
+        """
+
         # ### REVEAL THE ANSWER
         for column_idx in range(self.numOfDigits):
             self.ans_label_1[column_idx].config(text=get_digit(self.allGuesses_1[-1], column_idx), fg='Green', font="Helvetica 20 bold")
             self.ans_label_2[column_idx].config(text=get_digit(self.allGuesses_2[-1], column_idx), fg='Green', font="Helvetica 20 bold")
         # ### show how good was the attempt
         current_game_result = len(self.allGuesses_1) - len(self.allGuesses_2)
-        res_text = "" 
         if current_game_result == 0:
             res_text = "Tie"
             self.score["tie"] += 1 
@@ -139,6 +184,11 @@ class GameAIvsAI:
         tempLabel.after(self.sleeping_Time * 2, self.prepNextGame)
 
     def prepNextGame(self):
+        """
+        Check if this is the last game, and show final results, or clean the window, and start a new game.
+        Increments appropriate attributes
+        """
+
         if self.currentGameNumber == self.gameCount:  # happens if we played the LAST GAME
             self.showFinalResults()
         else:
@@ -149,10 +199,18 @@ class GameAIvsAI:
             self.create_header()  # This invokes the loop again
         
     def cleanWindow(self):
+        """
+        Remove every control from the window
+        """
+
         for widget in self.root2.winfo_children():
             widget.destroy()
 
     def showFinalResults(self):
+        """
+        A function called when all games are finished, and shows the results of all games
+        """
+
         # {"1 win" : 0 , "tie" : 0, "2 win" : 0} 
         res_text = "Times 1 won: " + str(self.score["1 win"]) + "\n"
         res_text += "Times 2 won: " + str(self.score["2 win"]) + "\n"
@@ -165,10 +223,3 @@ class GameAIvsAI:
             res_text += "The result is a tie!"
 
         tkinter.messagebox.showinfo("RESULTS", res_text)
-
-
-    
-
-
-
-
