@@ -172,4 +172,3 @@ class GameAI:
         game_num_label = Label(self.root2, text="game # "+str(self.currentGameNumber))
         game_num_label.grid(row=0, column=self.numOfDigits)
         game_num_label.after(self.sleeping_Time, self.populate_window)
-

@@ -1,6 +1,8 @@
 from tkinter import *
 import gamewindow as gw
-import ui
+import creditswindow
+# noinspection PyUnresolvedReferences
+import ui as UI
 
 # THIS IS THE WINDOW. root is the "place" all the items will be places
 root = Tk()
@@ -23,26 +25,28 @@ def radioChange(value):
     :param value: the number of radio-button to match
     :type value: int
     """
+
     if value == 1:
         gameCountSpinBox.config(state=NORMAL)
         delayScale.config(state=NORMAL)
-        ui.PLAYER_TYPE = "AI"
+        UI.PLAYER_TYPE = "AI"
     elif value == 2:
         gameCountSpinBox.config(state=NORMAL)
         delayScale.config(state=NORMAL)
-        ui.PLAYER_TYPE = "AIvsAI"
+        UI.PLAYER_TYPE = "AIvsAI"
     else:  # case 3 (default)
         gameCountSpinBox.config(state=DISABLED)
         delayScale.config(state=DISABLED)
-        ui.PLAYER_TYPE = "PLAYER"
+        UI.PLAYER_TYPE = "PLAYER"
 
 
 def showRules():
+    print("TBD: this function was abandoned. Why keep this button anyway? Because we're lazy enough to leave it as it is, as an option to be implemented later. Maybe.")
     return
 
 
 def showCredits():
-    return
+    creditswindow.CreditsWindow()
 
 
 # ### creating controls
@@ -68,7 +72,7 @@ numOfDigitsSpinBox = Spinbox(root,
                              wrap=True)
 num_of_digits.set(4)
 numToGuessLabel = Label(root, text="Number of Digits to guess       ")
-startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(ui.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), ui.delayScale.get(), SoundVar.get()))
+startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(UI.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), int(UI.delayScale.get()), SoundVar.get()))
 rulesButton = Button(root, text="Rules of \nthe game", height=3, width=20, padx=10, command=showRules)
 creditsButton = Button(root, text="CREDITS", height=2, width=20, command=showCredits)
 blankLabel = Label(root)  # blank text, used for window spacing
