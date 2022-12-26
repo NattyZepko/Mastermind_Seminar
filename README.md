@@ -49,7 +49,7 @@ Ui class - The main window.
 
 It is recommended to install all the relevant files using "pip install"
 ```bash
-  pip instal ...
+  pip install ...
 ```
 Then run the ui.py file
 
