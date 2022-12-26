@@ -1,4 +1,3 @@
-import tkinter.messagebox
 from tkinter import *
 import bh
 import pygame
@@ -151,11 +150,10 @@ class GameAI:
         """
 
         resultAVG = sum(self.allGuessCounts) / len(self.allGuessCounts)
-        #tkinter.messagebox.showinfo("RESULTS", "In " + str(self.gameCount) + " games, the average number of guesses is: " + str(round(resultAVG, 2)))
+        # tkinter.messagebox.showinfo("RESULTS", "In " + str(self.gameCount) + " games, the average number of guesses is: " + str(round(resultAVG, 2)))
         resultText = "In " + str(self.gameCount) + " games, the average number of guesses is: " + str(round(resultAVG, 2))
         finalResultLabel = Label(self.root2, text=resultText)
         finalResultLabel.grid(row=self.allGuessCounts[-1]+2, column=0, columnspan=10)
-
 
     def cleanWindow(self):
         """
