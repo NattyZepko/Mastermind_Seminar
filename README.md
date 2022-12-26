@@ -6,7 +6,7 @@ In addition, an AI was built that solves the problem through the implementation 
 
 - [About the game](https://en.wikipedia.org/wiki/Mastermind_(board_game))
 
-- [The algorithm](https://github.com/NattyZepko)
+- [The algorithm](https://www.cs.uni.edu/~wallingf/teaching/cs3530/resources/knuth-mastermind.pdf)
 
 
 
