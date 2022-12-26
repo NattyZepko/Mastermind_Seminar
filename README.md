@@ -59,16 +59,20 @@ Then run the ui.py file
 
 ## Screenshots
 main page:
+
 ![App Screenshot](https://user-images.githubusercontent.com/62293316/209550050-63b324a5-d1e7-4297-b560-bef8b65b356f.png)
 
 
 AI solve :
+
 ![App Screenshot](https://user-images.githubusercontent.com/62293316/209550196-d5964672-3942-4407-8699-d64eb94f5934.png)
 
 ![App Screenshot](https://user-images.githubusercontent.com/62293316/209550237-254a453a-97a6-4cbe-9e62-6615118f8e41.png)
 
 AI vs AI:
+
 ![App Screenshot](https://user-images.githubusercontent.com/62293316/209550337-f9e2025e-a131-494a-83e8-472e2fc5f815.png)
 
 Human Solve:
+
 ![App Screenshot](https://user-images.githubusercontent.com/62293316/209550392-7be43f31-fd2c-49f2-a383-2718c812cbde.png)
