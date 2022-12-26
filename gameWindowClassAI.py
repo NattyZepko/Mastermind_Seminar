@@ -45,6 +45,7 @@ class GameAI:
         self.numOfDigits = num_of_digits  # How many numbers to guess (IS OFTEN USED FOR ROW SIZE)
         self.sleeping_Time = 1000  # Sleeping time adjustment
         self.root2 = Tk()  # ### THE CURRENT WINDOW.
+        self.root2.attributes("-topmost", True)
 
         # ### ADJUST THE bh FILE PARAMETERS
         bh.Zero = zero_included
@@ -150,7 +151,11 @@ class GameAI:
         """
 
         resultAVG = sum(self.allGuessCounts) / len(self.allGuessCounts)
-        tkinter.messagebox.showinfo("RESULTS", "In " + str(self.gameCount) + " games, the average number of guesses is: " + str(round(resultAVG, 2)))
+        #tkinter.messagebox.showinfo("RESULTS", "In " + str(self.gameCount) + " games, the average number of guesses is: " + str(round(resultAVG, 2)))
+        resultText = "In " + str(self.gameCount) + " games, the average number of guesses is: " + str(round(resultAVG, 2))
+        finalResultLabel = Label(self.root2, text=resultText)
+        finalResultLabel.grid(row=self.allGuessCounts[-1]+2, column=0, columnspan=10)
+
 
     def cleanWindow(self):
         """

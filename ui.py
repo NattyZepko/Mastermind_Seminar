@@ -2,7 +2,7 @@ from tkinter import *
 import gamewindow as gw
 import creditswindow
 # noinspection PyUnresolvedReferences
-import ui as UI
+
 
 # THIS IS THE WINDOW. root is the "place" all the items will be places
 root = Tk()
@@ -26,18 +26,20 @@ def radioChange(value):
     :type value: int
     """
 
+    global PLAYER_TYPE
     if value == 1:
-        gameCountSpinBox.config(state=NORMAL)
+        gameCountSpinBox.config(state='readonly')
         delayScale.config(state=NORMAL)
-        UI.PLAYER_TYPE = "AI"
+        PLAYER_TYPE = "AI"
     elif value == 2:
-        gameCountSpinBox.config(state=NORMAL)
+        gameCountSpinBox.config(state='readonly')
         delayScale.config(state=NORMAL)
-        UI.PLAYER_TYPE = "AIvsAI"
+        PLAYER_TYPE = "AIvsAI"
     else:  # case 3 (default)
+        gameCount.set(1)
         gameCountSpinBox.config(state=DISABLED)
         delayScale.config(state=DISABLED)
-        UI.PLAYER_TYPE = "PLAYER"
+        PLAYER_TYPE = "PLAYER"
 
 
 def showRules():
@@ -61,7 +63,8 @@ gameCountSpinBox = Spinbox(root,
                            to=MAX_NUMBER_OF_GAMES,
                            textvariable=gameCount,
                            width=5,
-                           wrap=True)
+                           wrap=True,
+                           state='readonly')
 num_of_digits = IntVar()
 num_of_digits.set(MIN_NUMBER_OF_DIGITS)
 numOfDigitsSpinBox = Spinbox(root,
@@ -69,10 +72,11 @@ numOfDigitsSpinBox = Spinbox(root,
                              textvariable=num_of_digits,
                              to=MAX_NUMBER_OF_DIGITS,
                              width=3,
-                             wrap=True)
+                             wrap=True,
+                             state='readonly')
 num_of_digits.set(4)
 numToGuessLabel = Label(root, text="Number of Digits to guess       ")
-startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(UI.PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), int(UI.delayScale.get()), SoundVar.get()))
+startButton = Button(root, text="START!", height=5, width=20, command=lambda: gw.StartGame(PLAYER_TYPE, gameCount.get(), CheckVar.get(), num_of_digits.get(), int(delayScale.get()), SoundVar.get()))
 rulesButton = Button(root, text="Rules of \nthe game", height=3, width=20, padx=10, command=showRules)
 creditsButton = Button(root, text="CREDITS", height=2, width=20, command=showCredits)
 blankLabel = Label(root)  # blank text, used for window spacing
@@ -114,4 +118,5 @@ blankLabel.grid(sticky="W", row=10, column=0)
 
 
 # run the main loop (when interrupted, program ends)
+root.attributes("-topmost", True)
 root.mainloop()

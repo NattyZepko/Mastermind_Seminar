@@ -26,6 +26,7 @@ class GameHuman:
         self.zeroIncluded = zero_included
         self.soundIncluded = sound_included
         self.root2 = Tk()
+        self.root2.attributes("-topmost", True)
 
     def startGame(self):
         """
@@ -74,7 +75,8 @@ class GameHuman:
                                        from_=min_val,
                                        to=9,
                                        textvariable=values[index],
-                                       wrap=True))
+                                       wrap=True,
+                                       state = 'readonly'))
 
             spinBoxList[index].grid(row=self.current_row_number, column=index)
         submit_button = Button(self.root2, text="Submit", padx=5, pady=5, command=lambda: self.submit_guess(spinBoxList, submit_button))
@@ -129,4 +131,7 @@ class GameHuman:
             self.ans_label[index].config(text=str(answer[index]), fg='Green', font="Helvetica 20 bold")
         num_of_guesses = self.current_row_number - 1
         elapsed_time = self.timer_label.cget("text")
-        tkinter.messagebox.showinfo("RESULTS", "Total guesses: " + str(num_of_guesses) + "\nTime: " + elapsed_time)
+        # tkinter.messagebox.showinfo("RESULTS", "Total guesses: " + str(num_of_guesses) + "\nTime: " + elapsed_time)
+        resultText = "Total guesses: " + str(num_of_guesses) + "\nTime: " + elapsed_time
+        finalResultLabel = Label(self.root2, text=resultText)
+        finalResultLabel.grid(row=self.current_row_number+1, column=0, columnspan=10)

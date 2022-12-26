@@ -72,6 +72,7 @@ class GameAIvsAI:
         self.create_header()
         # After the windows are built, we launch it
         self.root2.title("AI vs AI")
+        self.root2.attributes("-topmost", True)
         self.root2.mainloop()
 
     def create_header(self):
@@ -176,6 +177,7 @@ class GameAIvsAI:
             res_text = "AI 2 wins"
             self.score["2 win"] += 1
             
+        self.lastRowPosition=row_position
         result_label = Label(self.root2, text=res_text)
         result_label.grid(row=row_position, column=self.numOfDigits, columnspan=5)
         # ### Temp label for next game
@@ -222,4 +224,8 @@ class GameAIvsAI:
         else:
             res_text += "The result is a tie!"
 
-        tkinter.messagebox.showinfo("RESULTS", res_text)
+        #tkinter.messagebox.showinfo("RESULTS", res_text)
+        emptyLabel = Label(self.root2, text="").grid(row=self.lastRowPosition+2, column=0, columnspan=10)
+        finalResultLabel = Label(self.root2, text=res_text)
+        finalResultLabel.grid(row=self.lastRowPosition+3, column=0, columnspan=10)
+
